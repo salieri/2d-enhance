@@ -1,0 +1,96 @@
+processor:
+  native:
+    size:
+      width: 256
+      height: 256
+
+output:
+  - name: prediction
+    format: png
+    mode: RGBA
+    width: 256
+    height: 256
+
+  - name: input
+    format: png
+    width: 64
+    height: 64
+    mode: RGBA
+    effects:
+      - type: grayscale
+        chance: 0.02
+      - type: reduce_colors
+        chance: 0.4
+        colors:
+          - count: 32
+            chance: 0.25
+          - count: 64
+            chance: 0.25
+          - count: 128
+            chance: 0.25
+          - count: 256
+            chance: 0.25
+      - type: reduce_alpha
+        chance: 0.25
+
+
+content:
+  grid:
+    size:
+      max:
+        width: 4
+        height: 4
+      min:
+        width: 1
+        height: 1
+    chance:
+      overlap: 0.1
+      resize: 0.1
+  types:
+    - type: shape
+      chance: 0.2
+      shapes:
+        - name: triangle
+          chance: 0.25
+        - name: hexagon
+          chance: 0.25
+        - name: oval
+          chance: 0.25
+        - name: line
+          chance: 0.25
+
+    - type: text
+      chance: 0.3
+      characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890"!@#$%^&*()_-+={}[]:;<>,.?/~'
+      fonts:
+        - name: Times New Roman
+          chance: 0.25
+        - name: Courier
+          chance: 0.25
+        - name: Helvetica
+          chance: 0.25
+        - name: Comic Sans
+          chance: 0.25
+      size:
+        min: 10
+        max: 32
+
+    - type: sprite
+      chance: 0.5
+      effects:
+        - type: rotate
+          chance: 0.15
+          min: -180
+          max: 180
+        - type: outline
+          chance: 0.15
+
+background:
+    chance: 0.1
+    effects:
+      - type: translucent
+        chance: 0.1
+      - type: gradient
+        chance: 0.1
+
+
