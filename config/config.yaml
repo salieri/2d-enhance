@@ -8,14 +8,18 @@ output:
   - name: prediction
     format: png
     mode: RGBA
-    width: 256
-    height: 256
+    style: cover # cover | contain
+    size:
+      width: 256
+      height: 256
 
   - name: input
     format: png
-    width: 64
-    height: 64
     mode: RGBA
+    style: cover # cover | contain
+    size:
+      width: 64
+      height: 64
     effects:
       - type: grayscale
         chance: 0.02
@@ -86,11 +90,14 @@ content:
           chance: 0.15
 
 background:
-    chance: 0.1
+    chance: 0.5
     effects:
-      - type: translucent
+      - type: translucency
         chance: 0.1
-      - type: gradient
-        chance: 0.1
+        alpha:
+          min: 0.1
+          max: 0.9
+#      - type: gradient
+#        chance 0.1
 
 

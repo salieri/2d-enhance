@@ -1,4 +1,3 @@
-/venv/lib
-/venv/pip-selfcheck
+/venv/
 
 .idea/workspace.xml

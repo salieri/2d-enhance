@@ -1,8 +1,11 @@
+> This project is currently in an early-stage drafting phase. It will not work or compile.
 
+## Installation
 
-
-# Installation
-
+1. MacOS only: `xcode-select install`
+1. MacOS only: `brew install libjpeg`
+1. MacOS Mojave only: `export CFLAGS="-I $(xcrun --show-sdk-path)/usr/include"`
+1. `python3 -m venv venv`
 1. `source venv/bin/activate`
 1. `pip install -r requirements.txt`
 
