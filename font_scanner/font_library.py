@@ -1,66 +1,100 @@
 import itertools as it, glob
 import os
-# import json
-from typing import Iterable
+import json
+from typing import Iterable, List
 import random
+import marshmallow.validate
 
 from PIL import ImageFont
+from datetime import datetime
+from dataclasses import field
+from marshmallow_dataclass import dataclass
+
+
+from config import Config
+
+MAGIC = 'tartarus-generator.font-scan-cache'
+VERSION = '0.1.0'
+
+@dataclass
+class FontAnalysisResult:
+    filename: str
+
+@dataclass
+class FontLibraryData:
+    type: str = field(metadata={'validate': marshmallow.validate.Equal(MAGIC)}, default=MAGIC)
+    version: str = field(default=VERSION)
+    scan_date: str
+    fonts: List[FontAnalysisResult] = field(default_factory=lambda: [])
 
 class FontLibrary:
-    def __init__(self, config: dict, base_path: str):
+    config: Config
+    base_path: str
+    file_extensions: List[str]
+    library: FontLibraryData
+
+    def __init__(self, config: Config, base_path: str):
         self.config = config
         self.base_path = base_path
         self.file_extensions = ['*.oft', '*.ttf']
-        self.library = {}
 
 
     def scan_filenames(self) -> Iterable:
         return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
 
 
-    def scan(self, base_path: str) -> dict:
+    def scan(self) -> FontLibraryData:
         fonts = []
 
         for filename in self.scan_filenames():
-            ff = {
-                "variations": []
+            fn = os.path.relpath(filename, self.base_path)
+            result = FontAnalysisResult.Schema().load({'filename': fn})
+
+            fonts.append(result)
+            #
+            #
+            # ff = {
+            #     "variations": []
+            # }
+            #
+            # for size in [9, 10, 12, 14, 18, 24, 32, 48]:
+            #     ff['variations'].append(ImageFont.truetype(filename, size=size))
+            #
+            # (family, style) = ff['variations'][0].getname()
+            # ff['name'] = f"{family}-{style}"
+            #
+            # fonts.append(ff)
+
+        self.library = FontLibraryData.Schema().load(
+            {
+                'type': MAGIC,
+                'version': VERSION,
+                'scan_date': str(datetime.now()),
+                'fonts': fonts
             }
-
-            for size in [9, 10, 12, 14, 18, 24, 32, 48]:
-                ff['variations'].append(ImageFont.truetype(filename, size=size))
-
-            (family, style) = ff['variations'][0].getname()
-            ff['name'] = f"{family}-{style}"
-
-            fonts.append(ff)
-
-        self.library = {
-            'type': 'nn-2d-font-scan',
-            'base_path': base_path,
-            'fonts': fonts
-        }
+        )
 
         return self.library
 
 
-    def get_font(self, family, index) -> ImageFont.ImageFont:
-        return self.library['fonts'][family]['variations'][index]
+    def get_random_font(self) -> FontAnalysisResult:
+        return random.choice(self.library.fonts)
 
 
-    def get_random_font(self) -> ImageFont.ImageFont:
-        family = random.choice(self.library['fonts'])
+    def load(self, filename: str) -> FontLibraryData:
+        with open(filename, 'r') as fp:
+            (data, err) = FontLibraryData.Schema().load(json.load(fp))
 
-        return random.choice(family['variations'])
+            if bool(err) is True:
+                print(err)
+                raise Exception(f"Invalid data in '{filename}'")
+
+            self.data = data
+
+            return data
 
 
-    # def load(self, filename: str) -> dict:
-    #     with open(filename, 'r') as fp:
-    #         self.library = json.load(fp)
-    #
-    #         return self.library
-    #
-    #
-    # def save(self, filename: str, scan_results: dict) -> None:
-    #     with open(filename, 'w') as fp:
-    #         json.dump(scan_results, fp)
+    def save(self, filename: str, data: FontLibraryData) -> None:
+        with open(filename, 'w') as fp:
+            json.dump(data.Schema().dump(), fp)
 

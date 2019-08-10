@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from marshmallow_dataclass import dataclass
 
 @dataclass
 class RunOpts:
@@ -7,4 +7,5 @@ class RunOpts:
     output_depth: int
     config: str
     samples: int
+    show: bool
 

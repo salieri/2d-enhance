@@ -42,7 +42,7 @@ class ImageLibrary:
         return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
 
 
-    def scan(self, base_path: str) -> ImageLibraryData:
+    def scan(self) -> ImageLibraryData:
         backgrounds = []
         sprites = []
         native = self.config.processor.native.size
@@ -53,14 +53,14 @@ class ImageLibrary:
             ia = ImageAnalyzer(filename)
 
             details = ia.analyze()
-            details.filename = os.path.relpath(details.filename, base_path)
+            details.filename = os.path.relpath(details.filename, self.base_path)
 
             if (details.solid is True) and (details.width >= native_width) and (details.height >= native_height):
                 backgrounds.append(details)
             else:
                 sprites.append(details)
 
-        self.data = ImageLibraryData.Schema.Load(
+        self.data = ImageLibraryData.Schema().load(
             {
                 'type': MAGIC,
                 'version': VERSION,
@@ -75,7 +75,7 @@ class ImageLibrary:
 
     def load(self, filename: str) -> ImageLibraryData:
         with open(filename, 'r') as fp:
-            (data, err) = ImageLibraryData.Schema.Load(json.load(fp))
+            (data, err) = ImageLibraryData.Schema().load(json.load(fp))
 
             if bool(err) is True:
                 print(err)

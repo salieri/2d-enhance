@@ -13,11 +13,12 @@
 ## Building a Sample Library
 
 ```bash
-sample-generator
-    --input PATH
-    --output PATH
+python3 generator.py
+    --input /path/to/input/images/and/fonts
+    --output /path/to/output/images
     --output-depth 5
-    --config PATH
+    --config /path/to/config.yaml
     --samples 10000
+    [--show]
 ```
 

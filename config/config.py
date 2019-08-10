@@ -130,9 +130,9 @@ class ConfigContent:
 
 @dataclass
 class ConfigBackgroundType:
+    colors: Optional[List[str]] # solid, gradient
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['solid', 'transparent', 'bitmap', 'gradient', 'noise'])})
     fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='cover')
-    colors: Optional[List[str]] # solid, gradient
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
     chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
 
