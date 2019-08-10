@@ -1,16 +1,15 @@
 import random
-from PIL import ImageDraw
+from PIL import ImageDraw, Image
+
+from font_scanner import FontLibrary
 
 class TextProcessor:
-    def __init__(self, font_library):
+    def __init__(self, font_library: FontLibrary):
         self.font_library = font_library
 
-    def process_text(self, content, text_im):
-        family = random.choice(self.font_library['fonts'])
-        font = random.choice(family['variations'])
-
+    def process_text(self, content: dict, text_im: Image) -> Image:
+        font = self.font_library.get_random_font()
         draw = ImageDraw.Draw(text_im)
-
         txt = ''
 
         for line in range(3):

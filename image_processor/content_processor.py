@@ -3,6 +3,7 @@ from util import should
 from PIL import Image, ImageDraw
 
 from .effect_processor import EffectProcessor
+from .text_procecssor import TextProcessor
 
 def sprite_content(cp, content):
     sprite = random.choice(cp.im_library['sprites'])

@@ -1,21 +1,22 @@
 import itertools as it, glob
 import os
 import json
+from typing import Iterable
 
 from .image_analyzer import ImageAnalyzer
 
 class ImageLibrary:
-    def __init__(self, config, base_path):
+    def __init__(self, config: dict, base_path: str):
         self.config = config
         self.base_path = base_path
         self.file_extensions = ['*.jpg', '*.png', '*.gif']
 
 
-    def scan_filenames(self):
+    def scan_filenames(self) -> Iterable:
         return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
 
 
-    def scan(self, base_path):
+    def scan(self, base_path: str) -> dict:
         backgrounds = []
         sprites = []
         native = self.config['processor']['native']
@@ -40,12 +41,12 @@ class ImageLibrary:
         }
 
 
-    def load(self, filename):
+    def load(self, filename: str) -> None:
         with open(filename, 'r') as fp:
             return json.load(fp)
 
 
-    def save(self, filename, scan_results):
+    def save(self, filename: str, scan_results: dict) -> None:
         with open(filename, 'w') as fp:
             json.dump(scan_results, fp)
 

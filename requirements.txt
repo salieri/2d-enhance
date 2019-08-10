@@ -1,2 +1,4 @@
 Pillow-SIMD==6.0.0.post0
 PyYAML==5.1.2
+marshmallow==2.20.0
+marshmallow-dataclass==0.6.6

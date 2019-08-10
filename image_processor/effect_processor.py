@@ -24,6 +24,7 @@ def translucency_effect(im, effect):
 
     return im.putalpha(im.getchannel('A').point(lut))
 
+# outline
 
 supported_effects = {
     'grayscale': grayscale_effect,
