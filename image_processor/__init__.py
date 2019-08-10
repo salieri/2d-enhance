@@ -1,3 +1,4 @@
+from .bounding_box import BoundingBox
 from .background_processor import BackgroundProcessor
 from .content_processor import ContentProcessor
 from .effect_processor import EffectProcessor

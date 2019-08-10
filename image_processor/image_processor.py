@@ -3,6 +3,7 @@ import os
 from math import floor
 from PIL import Image
 
+from .bounding_box import BoundingBox
 from .effect_processor import EffectProcessor
 from .content_processor import ContentProcessor
 from .background_processor import BackgroundProcessor
@@ -10,29 +11,6 @@ from .background_processor import BackgroundProcessor
 from config import Config, ConfigOutputTarget, RunOpts
 from image_scanner import ImageLibrary
 from font_scanner import FontLibrary
-
-
-class BoundingBox:
-    x: int
-    y: int
-    x2: int
-    y2: int
-    cx: int
-    cy: int
-    width: int
-    height: int
-
-    def __init__(self, x: int, y: int, width: int, height: int):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-
-        self.x2 = x + width - 1
-        self.y2 = y + height - 1
-        self.cx = round(x + width / 2)
-        self.cy = round(y + height / 2)
-
 
 class ImageProcessor:
     config: Config
@@ -110,7 +88,7 @@ class ImageProcessor:
         output_path = self.get_output_path()
 
         os.makedirs(output_path, exist_ok=True)
-        out.save(os.path.join(output_path, self.get_variation_filename(variation)), effects)
+        out.save(os.path.join(output_path, self.get_variation_filename(variation)))
 
 
     def process_variation_effects(self, variation: ConfigOutputTarget, im: Image) -> Image:
@@ -126,6 +104,6 @@ class ImageProcessor:
     def get_output_path(self) -> str:
         output_depth=self.run_opts.output_depth
 
-        ext_path = str(self.id)[-output_depth].zfill(output_depth).join(os.path.sep)
+        ext_path = os.path.sep.join(str(self.id).zfill(output_depth)[-output_depth:])
 
         return os.path.join(self.run_opts.output, ext_path)

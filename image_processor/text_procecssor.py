@@ -1,5 +1,5 @@
 import random
-from PIL import ImageDraw, Image
+from PIL import ImageDraw, Image, ImageFont
 
 from config import ConfigContentType
 from font_scanner import FontLibrary
@@ -9,7 +9,9 @@ class TextProcessor:
         self.font_library = font_library
 
     def process_text(self, content: ConfigContentType, text_im: Image.Image) -> Image.Image:
-        font = self.font_library.get_random_font()
+        font_result = self.font_library.get_random_font()
+        font_size = random.randint(content.font_size.min, content.font_size.max)
+        font = ImageFont.truetype(font_result.filename, font_size)
         draw = ImageDraw.Draw(text_im)
         txt = ''
 

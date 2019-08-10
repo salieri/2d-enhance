@@ -4,8 +4,8 @@ import util
 from PIL import Image, ImageDraw
 
 from config import ConfigContentType
-from .image_processor import BoundingBox
 
+from .bounding_box import BoundingBox
 from .effect_processor import EffectProcessor
 from .text_procecssor import TextProcessor
 from .shape_processor import ShapeProcessor

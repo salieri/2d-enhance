@@ -1,0 +1,27 @@
+
+output:
+  targets:
+    - name: prediction
+      size:
+        width: 256
+        height: 256
+
+    - name: input
+      size:
+        width: 64
+        height: 64
+      effects:
+        - type: grayscale
+          chance: 0.02
+        - type: reduce_colors
+          chance: 0.4
+          colors:
+            - count: 32
+              chance: 0.25
+            - count: 64
+              chance: 0.25
+            - count: 128
+              chance: 0.25
+            - count: 256
+              chance: 0.25
+

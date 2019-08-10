@@ -12,7 +12,7 @@ parser.add_argument('--output', metavar='PATH', type=str, help='Image output pat
 parser.add_argument('--output-depth', metavar='N', type=int, help='Output subdirectory depth', default=5)
 parser.add_argument('--config', metavar='FILE', type=str, help='Generator config YAML', required=True)
 parser.add_argument('--samples', metavar='N', type=int, help='How many samples to generate', default=10)
-parser.add_argument('--show', type=bool, help='Show generated images', default=False)
+parser.add_argument('--show', help='Show generated images', action='store_true', default=False)
 
 args = parser.parse_args()
 
@@ -21,6 +21,9 @@ args = parser.parse_args()
 if bool(err) is True:
     print(err)
     raise Exception('Invalid arguments')
+
+if run_opts.output == run_opts.input:
+    raise Exception('Input and output paths must not match')
 
 config = load_config(run_opts.config)
 
@@ -34,5 +37,8 @@ for i in range(run_opts.samples):
     ip = ImageProcessor(config, run_opts, im_library, font_library, str(i))
     ip.generate()
     ip.save()
+
+    if run_opts.show is True:
+        ip.im.show()
 
 

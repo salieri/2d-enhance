@@ -22,9 +22,9 @@ class FontAnalysisResult:
 
 @dataclass
 class FontLibraryData:
+    scan_date: str
     type: str = field(metadata={'validate': marshmallow.validate.Equal(MAGIC)}, default=MAGIC)
     version: str = field(default=VERSION)
-    scan_date: str
     fonts: List[FontAnalysisResult] = field(default_factory=lambda: [])
 
 class FontLibrary:

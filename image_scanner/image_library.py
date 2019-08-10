@@ -19,9 +19,9 @@ VERSION = '0.1.0'
 
 @dataclass
 class ImageLibraryData:
+    scan_date: str
     type: str = field(metadata={'validate': marshmallow.validate.Equal(MAGIC)}, default=MAGIC)
     version: str = field(default=VERSION)
-    scan_date: str
     backgrounds: List[ImageAnalysisResult] = field(default_factory=lambda: [])
     sprites: List[ImageAnalysisResult] = field(default_factory=lambda: [])
 

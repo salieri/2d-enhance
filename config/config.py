@@ -112,10 +112,17 @@ class ConfigContentTypeShape:
 
 
 @dataclass
+class ConfigContentTypeFontSize:
+    min: int = field(metadata={'validate': marshmallow.validate.Range(min=4)})
+    max: int = field(metadata={'validate': marshmallow.validate.Range(min=4)})
+
+
+@dataclass
 class ConfigContentType:
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['sprite', 'shape', 'text'])})
     shapes: Optional[List[ConfigContentTypeShape]] # shape
     characters: Optional[str] # text
+    font_size: Optional[ConfigContentTypeFontSize] # text
     fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='clip') # sprite
     draw_chances: ConfigContentTypeDrawChances = field(default_factory=lambda: {})
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
