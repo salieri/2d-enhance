@@ -1,4 +1,4 @@
-> This project is currently in an early-stage drafting phase. It will not work or compile.
+> This project is an early stage draft. It does not work or compile.
 
 ## Installation
 

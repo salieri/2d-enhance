@@ -1,1 +1,2 @@
 Pillow-SIMD==6.0.0.post0
+PyYAML==5.1.2
