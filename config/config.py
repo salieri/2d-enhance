@@ -1,9 +1,10 @@
 from dataclasses import field
 from marshmallow_dataclass import dataclass
-
 import marshmallow.validate
 
 from typing import List, Optional
+
+import yaml
 
 # https://pypi.org/project/marshmallow-dataclass/
 
@@ -77,7 +78,7 @@ class ConfigOutputTarget:
     name: str = field(metadata={'validate': marshmallow.validate.Regexp('^[a-zA-Z0-9]+$')})
     format: str = field(metadata={'validate': marshmallow.validate.OneOf(['png', 'jpg'])}, default='png')
     mode: str = field(metadata={'validate': marshmallow.validate.OneOf(['RGBA', 'RGB', 'L'])}, default='RGBA')
-    style: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='cover')
+    fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='contain')
     size: ConfigSize = field(default_factory=lambda: {'width': 256, 'height': 256})
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
 
@@ -115,6 +116,7 @@ class ConfigContentType:
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['sprite', 'shape', 'text'])})
     shapes: Optional[List[ConfigContentTypeShape]] # shape
     characters: Optional[str] # text
+    fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='clip') # sprite
     draw_chances: ConfigContentTypeDrawChances = field(default_factory=lambda: {})
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
     chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
@@ -122,13 +124,14 @@ class ConfigContentType:
 
 @dataclass
 class ConfigContent:
-    types: List[ConfigContentType]
+    types: List[ConfigContentType] = field(default_factory=lambda: [])
     grid: ConfigContentGrid = field(default_factory=lambda: {})
 
 
 @dataclass
 class ConfigBackgroundType:
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['solid', 'transparent', 'bitmap', 'gradient', 'noise'])})
+    fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='cover')
     colors: Optional[List[str]] # solid, gradient
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
     chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
@@ -142,7 +145,20 @@ class ConfigBackground:
 @dataclass
 class Config:
     output: ConfigOutput
-    content: ConfigContent
+    content: ConfigContent = field(default_factory=lambda: {})
     background: ConfigBackground = field(default_factory=lambda: {})
     processor: ConfigProcessor = field(default_factory=lambda: {})
+
+
+def load_config(filename: str) -> Config:
+    with open(filename, 'r') as fp:
+        yaml_data = yaml.load(fp)
+
+        (config, err) = Config.Schema().load(yaml_data)
+
+        if bool(err) is True:
+            print(err)
+            raise Exception(f"Invalid configuration in '{filename}'")
+
+        return config
 

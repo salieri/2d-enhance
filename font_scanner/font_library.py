@@ -1,6 +1,6 @@
 import itertools as it, glob
 import os
-import json
+# import json
 from typing import Iterable
 import random
 
@@ -43,24 +43,24 @@ class FontLibrary:
         return self.library
 
 
-    def get_font(self, family, index):
+    def get_font(self, family, index) -> ImageFont.ImageFont:
         return self.library['fonts'][family]['variations'][index]
 
 
-    def get_random_font(self) -> ImageFont:
+    def get_random_font(self) -> ImageFont.ImageFont:
         family = random.choice(self.library['fonts'])
 
         return random.choice(family['variations'])
 
 
-    def load(self, filename: str) -> dict:
-        with open(filename, 'r') as fp:
-            self.library = json.load(fp)
-
-            return self.library
-
-
-    def save(self, filename: str, scan_results: dict) -> None:
-        with open(filename, 'w') as fp:
-            json.dump(scan_results, fp)
+    # def load(self, filename: str) -> dict:
+    #     with open(filename, 'r') as fp:
+    #         self.library = json.load(fp)
+    #
+    #         return self.library
+    #
+    #
+    # def save(self, filename: str, scan_results: dict) -> None:
+    #     with open(filename, 'w') as fp:
+    #         json.dump(scan_results, fp)
 
