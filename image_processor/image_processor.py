@@ -1,7 +1,6 @@
 import random
 import os
 from math import floor
-
 from PIL import Image
 
 from .effect_processor import EffectProcessor
@@ -11,10 +10,11 @@ import util
 
 
 class ImageProcessor:
-    def __init__(self, config, run_opts, library, id):
+    def __init__(self, config, run_opts, im_library, font_library, id):
         self.config = config
         self.run_opts = run_opts
-        self.library = library
+        self.im_library = im_library
+        self.font_library = font_library
         self.id = id
 
         grid_size = self.config['content']['grid']['size']
@@ -44,7 +44,7 @@ class ImageProcessor:
         if util.should(bg_config) is False:
             return
 
-        bg = random.choice(self.library['backgrounds'])
+        bg = random.choice(self.im_library['backgrounds'])
         bgim = Image.open(bg['filename']).convert('RGBA')
 
         ep = EffectProcessor()
@@ -59,12 +59,11 @@ class ImageProcessor:
 
     def generate_content(self):
         for col_index in range(self.grid['width'] * self.grid['height']):
-            content = util.select_one(self.config['content']['types'])
             bounding_box = self.get_bounding_box(col_index)
 
-            cp = ContentProcessor(self.im, content, bounding_box)
+            cp = ContentProcessor(self.im, self.im_library, self.font_library, bounding_box)
 
-            cp.process_content()
+            cp.process_content(self.config['content']['types'])
 
 
     def get_bounding_box(self, col_index):
@@ -86,7 +85,9 @@ class ImageProcessor:
             'x2': round(x + pixel_width - 1),
             'y2': round(y + pixel_height - 1),
             'cx': round(x + pixel_width / 2),
-            'cy': round(y + pixel_height / 2)
+            'cy': round(y + pixel_height / 2),
+            'width': pixel_width,
+            'height': pixel_height
         }
 
 

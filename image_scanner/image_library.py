@@ -11,8 +11,8 @@ class ImageLibrary:
         self.file_extensions = ['*.jpg', '*.png', '*.gif']
 
 
-    def scan_filenames(self, *patterns):
-        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, pattern), recursive=True) for pattern in patterns)
+    def scan_filenames(self):
+        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
 
 
     def scan(self, base_path):
@@ -22,7 +22,7 @@ class ImageLibrary:
         native_width = native['width']
         native_height = native['height']
 
-        for filename in glob.iglob('', recursive=True):
+        for filename in self.scan_filenames():
             ia = ImageAnalyzer(filename)
 
             details = ia.analyze()

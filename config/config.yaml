@@ -51,8 +51,20 @@ content:
       overlap: 0.1
       resize: 0.1
   types:
+    - type: sprite
+      chance: 0.8
+      clipping: 0.7
+      effects:
+        - type: rotate
+          chance: 0.15
+          min: -180
+          max: 180
+        - type: outline
+          chance: 0.15
+
     - type: shape
-      chance: 0.2
+      chance: 0.05
+      clipping: 0
       shapes:
         - name: triangle
           chance: 0.25
@@ -64,7 +76,8 @@ content:
           chance: 0.25
 
     - type: text
-      chance: 0.3
+      chance: 0.15
+      clipping: 0
       characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890"!@#$%^&*()_-+={}[]:;<>,.?/~'
       fonts:
         - name: Times New Roman
@@ -79,15 +92,6 @@ content:
         min: 10
         max: 32
 
-    - type: sprite
-      chance: 0.5
-      effects:
-        - type: rotate
-          chance: 0.15
-          min: -180
-          max: 180
-        - type: outline
-          chance: 0.15
 
 background:
     chance: 0.5
