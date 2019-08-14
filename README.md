@@ -1,5 +1,10 @@
 > This project is an early stage draft. It does not work or compile.
 
+# Tartarus Image Generation Tools
+
+Command line tools for generating large sets of variations from existing image sets. 
+
+
 ## Installation
 
 1. MacOS only: `xcode-select install`
