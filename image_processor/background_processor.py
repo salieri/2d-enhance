@@ -52,18 +52,21 @@ class BackgroundProcessor:
 
 
     def process_background(self, backgrounds: List[ConfigBackgroundType]) -> Image.Image:
-        bg = util.select_one(backgrounds)
-        bg_im = supported_content[bg.type](bg, self.im_library, self.width, self.height)
+        im = Image.new('RGBA', size=(self.width, self.height), color=(0, 0, 0, 0))
 
-        return self.finalize_background(bg, bg_im)
+        for bg in backgrounds:
+            if util.should(bg.chance) is True:
+                bg_im = supported_content[bg.type](bg, self.im_library, self.width, self.height)
+                im = self.finalize_background(bg, bg_im, im)
+
+        return im
 
 
-    def finalize_background(self, bg: ConfigBackgroundType, bg_im: Image.Image) -> Image.Image:
+    def finalize_background(self, bg: ConfigBackgroundType, bg_im: Image.Image, im: Image.Image) -> Image.Image:
         ep = EffectProcessor()
         bg_im = ep.process_effects(bg_im, bg.effects)
         pos = util.determine_image_position(bg.fit, bg_im.width, bg_im.height, self.width, self.height)
         resized = bg_im.resize((pos[2], pos[3]), resample=Image.LANCZOS)
-        im = Image.new('RGBA', size=(self.width, self.height), color=(0, 0, 0, 0))
 
         im.paste(resized, box=(pos[0], pos[1]))
 

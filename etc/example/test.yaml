@@ -1,11 +1,16 @@
-
 background:
   types:
     - type: solid
-      chance: 0.25
+      chance: 0.20
     - type: bitmap
-      chance: 0.75
-
+      chance: 0.35
+      fit: clip
+    - type: bitmap
+      chance: 0.35
+      fit: cover
+    - type: bitmap
+      chance: 0.25
+      fit: contain
 
 output:
   targets:
@@ -13,27 +18,24 @@ output:
       size:
         width: 256
         height: 256
-
-#    - name: input
-#      size:
-#        width: 64
-#        height: 64
-#      effects:
-#        - type: grayscale
-#          chance: 0.02
-#        - type: reduce_colors
-#          chance: 0.4
-#          colors:
-#            - count: 32
-#              chance: 0.25
-#            - count: 64
-#              chance: 0.25
-#            - count: 128
-#              chance: 0.25
-#            - count: 256
-#              chance: 0.25
-
-
+    - name: input
+      size:
+        width: 64
+        height: 64
+      effects:
+        - type: grayscale
+          chance: 0.04
+        - type: reduce_colors
+          chance: 0.2
+          colors:
+            - count: 32
+              chance: 0.25
+            - count: 64
+              chance: 0.25
+            - count: 128
+              chance: 0.25
+            - count: 256
+              chance: 0.25
 
 content:
   grid:
@@ -46,17 +48,62 @@ content:
         height: 3
   types:
     - type: sprite
-      chance: 0.65
+      chance: 1
       fit: cover # cover | contain | clip
-#      effects:
-#        - type: rotate
-#          chance: 0
-#          angle:
-#            min: -180
-#            max: 180
-#        - type: outline
-#          chance:
-
+      effects:
+        - type: rotate
+          chance: 0.5
+          angle:
+            min: -180
+            max: 180
+        - type: translucency
+          chance: 0.2
+          alpha:
+            min: 0.1
+            max: 0.9
+        - type: reduce_colors
+          chance: 0.2
+          colors:
+            - count: 3
+              chance: 1
+    - type: sprite
+      chance: 0.33
+      fit: cover # cover | contain | clip
+      effects:
+        - type: rotate
+          chance: 0.5
+          angle:
+            min: -180
+            max: 180
+        - type: translucency
+          chance: 0.2
+          alpha:
+            min: 0.1
+            max: 0.9
+        - type: reduce_colors
+          chance: 0.2
+          colors:
+            - count: 3
+              chance: 1
+    - type: sprite
+      chance: 0.33
+      fit: contain
+      effects:
+        - type: rotate
+          chance: 0.5
+          angle:
+            min: -180
+            max: 180
+        - type: translucency
+          chance: 0.2
+          alpha:
+            min: 0.1
+            max: 0.9
+        - type: reduce_colors
+          chance: 0.2
+          colors:
+            - count: 3
+              chance: 1
     - type: shape
       chance: 0.6
       shapes:
@@ -68,7 +115,6 @@ content:
           chance: 0.15
         - type: line
           chance: 0.05
-
     - type: text
       chance: 0.25
       characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890"!@#$%^&*()_-+={}[]:;<>,.?/~'

@@ -52,9 +52,15 @@ def determine_image_position(fit: str, src_width: int, src_height: int, target_w
     nw = min(src_width, src_width / d)
     nh = min(src_height, src_height / d)
 
+    sw = round(target_width - nw)
+    sh = round(target_height - nh)
+
+    nx = random.randint(min(0, sw), max(0, sw))
+    ny = random.randint(min(0, sh), max(0, sh))
+
     return (
-        -round((target_width - nw) / 2),
-        -round((target_height - nh) / 2),
+        nx,
+        ny,
         round(nw),
         round(nh)
     )

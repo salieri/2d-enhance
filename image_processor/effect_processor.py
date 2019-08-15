@@ -23,9 +23,13 @@ def rotate_effect(im: Image.Image, effect: ConfigEffect) -> Image.Image:
 def translucency_effect(im: Image.Image, effect: ConfigEffect) -> Image.Image:
     alpha = util.select_range(effect.alpha.min, effect.alpha.max)
 
-    lut = map(lambda x: max(0, min(255, round(x * alpha))), range(256))
+    lut = list(map(lambda x: max(0, min(255, round(x * alpha))), range(256)))
 
-    return im.putalpha(im.getchannel('A').point(lut))
+    im_new = im.copy()
+
+    im_new.putalpha(im_new.getchannel('A').point(lut))
+
+    return im_new
 
 # outline
 
