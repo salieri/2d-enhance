@@ -49,8 +49,8 @@ def determine_image_position(fit: str, src_width: int, src_height: int, target_w
         # all must be seen
         d = max(wd, hd)
 
-    nw = src_width / d
-    nh = src_height / d
+    nw = min(src_width, src_width / d)
+    nh = min(src_height, src_height / d)
 
     return (
         -round((target_width - nw) / 2),

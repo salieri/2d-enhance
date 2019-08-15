@@ -10,7 +10,7 @@ from image_scanner import ImageLibrary
 
 def bitmap_background(background: ConfigBackgroundType, im_library: ImageLibrary, width: int, height: int) -> Image.Image:
     bg = im_library.get_random_background()
-    bg_im = Image.open(bg.filename).convert('RGBA')
+    bg_im = Image.open(im_library.get_filename(bg)).convert('RGBA')
     return bg_im
 
 

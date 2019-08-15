@@ -1,15 +1,16 @@
 from PIL import Image
 import hashlib
 
+from dataclasses import field
 from marshmallow_dataclass import dataclass
 
 @dataclass
 class ImageAnalysisResult:
-    filename: str
-    width: int
-    height: int
-    md5: str
-    solid: bool
+    filename: str = field()
+    width: int = field()
+    height: int = field()
+    md5: str = field()
+    solid: bool = field()
 
 
 class ImageAnalyzer:
@@ -26,7 +27,7 @@ class ImageAnalyzer:
 
         (width, height) = im.size
 
-        return ImageAnalysisResult.Schema.Load(
+        return ImageAnalysisResult.Schema().load(
             {
                 'filename': self.filename,
                 'width': width,
@@ -38,17 +39,20 @@ class ImageAnalyzer:
 
 
     def load(self) -> None:
-        self.im = Image.open(self.filename)
+        self.im = Image.open(self.filename).convert('RGBA')
 
 
     # Check that there are no translucent / transparent pixels
     def is_solid(self, im: Image.Image) -> bool:
-        (alphaMin, alphaMax) = im.getchannel('A').getextrema()
+        (alphaMin, alphaMax) = im.getextrema()[3] # always RGBA
+
+        # (alphaMin, alphaMax) = im.getchannel('A').getextrema()
+
 
         return (alphaMin == alphaMax) and (alphaMax == 255)
 
 
     def get_md5(self, filename:str) -> str:
-        with open(filename) as fp:
+        with open(filename, 'rb') as fp:
             data = fp.read()
             return hashlib.md5(data).hexdigest()

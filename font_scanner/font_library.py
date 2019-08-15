@@ -18,7 +18,7 @@ VERSION = '0.1.0'
 
 @dataclass
 class FontAnalysisResult:
-    filename: str
+    filename: str = field()
 
 @dataclass
 class FontLibraryData:
@@ -40,7 +40,7 @@ class FontLibrary:
 
 
     def scan_filenames(self) -> Iterable:
-        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
+        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, '**', ext), recursive=True) for ext in self.file_extensions)
 
 
     def scan(self) -> FontLibraryData:
@@ -48,9 +48,9 @@ class FontLibrary:
 
         for filename in self.scan_filenames():
             fn = os.path.relpath(filename, self.base_path)
-            result = FontAnalysisResult.Schema().load({'filename': fn})
+            (result, font_err) = FontAnalysisResult.Schema().load({'filename': fn})
 
-            fonts.append(result)
+            fonts.append(FontAnalysisResult.Schema().dump(result)[0])
             #
             #
             # ff = {
@@ -65,7 +65,7 @@ class FontLibrary:
             #
             # fonts.append(ff)
 
-        self.library = FontLibraryData.Schema().load(
+        (self.library, err) = FontLibraryData.Schema().load(
             {
                 'type': MAGIC,
                 'version': VERSION,
@@ -98,3 +98,6 @@ class FontLibrary:
         with open(filename, 'w') as fp:
             json.dump(data.Schema().dump(), fp)
 
+
+    def get_filename(self, far: FontAnalysisResult) -> str:
+        return os.path.join(self.base_path, far.filename)

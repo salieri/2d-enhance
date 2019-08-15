@@ -13,7 +13,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/generator.py" />
-    <option name="PARAMETERS" value="--config ./etc/example/test.yaml --input /Volumes/MLSlow/graphics/test/game-graphics --output-depth 3 --output /Volumes/MLSlow/generated/game-test-graphics --samples 1 --show" />
+    <option name="PARAMETERS" value="--config ./etc/example/test.yaml --input /Volumes/MLSlow/test/game-graphics --output-depth 3 --output /Volumes/MLSlow/generated/game-test-graphics --samples 1 --show" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

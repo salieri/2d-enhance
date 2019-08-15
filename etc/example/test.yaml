@@ -1,4 +1,12 @@
 
+background:
+  types:
+    - type: solid
+      chance: 0.25
+    - type: bitmap
+      chance: 0.75
+
+
 output:
   targets:
     - name: prediction
@@ -6,22 +14,65 @@ output:
         width: 256
         height: 256
 
-    - name: input
-      size:
-        width: 64
-        height: 64
-      effects:
-        - type: grayscale
-          chance: 0.02
-        - type: reduce_colors
-          chance: 0.4
-          colors:
-            - count: 32
-              chance: 0.25
-            - count: 64
-              chance: 0.25
-            - count: 128
-              chance: 0.25
-            - count: 256
-              chance: 0.25
+#    - name: input
+#      size:
+#        width: 64
+#        height: 64
+#      effects:
+#        - type: grayscale
+#          chance: 0.02
+#        - type: reduce_colors
+#          chance: 0.4
+#          colors:
+#            - count: 32
+#              chance: 0.25
+#            - count: 64
+#              chance: 0.25
+#            - count: 128
+#              chance: 0.25
+#            - count: 256
+#              chance: 0.25
+
+
+
+content:
+  grid:
+    size:
+      min:
+        width: 1
+        height: 1
+      max:
+        width: 3
+        height: 3
+  types:
+    - type: sprite
+      chance: 0.65
+      fit: cover # cover | contain | clip
+#      effects:
+#        - type: rotate
+#          chance: 0
+#          angle:
+#            min: -180
+#            max: 180
+#        - type: outline
+#          chance:
+
+    - type: shape
+      chance: 0.6
+      shapes:
+        - type: triangle
+          chance: 0.15
+        - type: hexagon
+          chance: 0.1
+        - type: ellipse
+          chance: 0.15
+        - type: line
+          chance: 0.05
+
+    - type: text
+      chance: 0.25
+      characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890"!@#$%^&*()_-+={}[]:;<>,.?/~'
+      font_size:
+        min: 14
+        max: 50
 

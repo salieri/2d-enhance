@@ -39,12 +39,12 @@ class ImageLibrary:
 
 
     def scan_filenames(self) -> Iterable:
-        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, ext), recursive=True) for ext in self.file_extensions)
+        return it.chain.from_iterable(glob.iglob(os.path.join(self.base_path, '**', ext), recursive=True) for ext in self.file_extensions)
 
 
     def scan(self) -> ImageLibraryData:
-        backgrounds = []
-        sprites = []
+        backgrounds: List[ImageAnalysisResult] = []
+        sprites: List[ImageAnalysisResult] = []
         native = self.config.processor.native.size
         native_width = native.width
         native_height = native.height
@@ -52,15 +52,15 @@ class ImageLibrary:
         for filename in self.scan_filenames():
             ia = ImageAnalyzer(filename)
 
-            details = ia.analyze()
+            (details, details_err) = ia.analyze()
             details.filename = os.path.relpath(details.filename, self.base_path)
 
             if (details.solid is True) and (details.width >= native_width) and (details.height >= native_height):
-                backgrounds.append(details)
+                backgrounds.append(ImageAnalysisResult.Schema().dump(details)[0])
             else:
-                sprites.append(details)
+                sprites.append(ImageAnalysisResult.Schema().dump(details)[0])
 
-        self.data = ImageLibraryData.Schema().load(
+        (self.data, err) = ImageLibraryData.Schema().load(
             {
                 'type': MAGIC,
                 'version': VERSION,
@@ -97,3 +97,8 @@ class ImageLibrary:
 
     def get_random_background(self) -> ImageAnalysisResult:
         return random.choice(self.data.backgrounds)
+
+
+    def get_filename(self, iar: ImageAnalysisResult) -> str:
+        return os.path.join(self.base_path, iar.filename)
+

@@ -11,7 +11,7 @@ class TextProcessor:
     def process_text(self, content: ConfigContentType, text_im: Image.Image) -> Image.Image:
         font_result = self.font_library.get_random_font()
         font_size = random.randint(content.font_size.min, content.font_size.max)
-        font = ImageFont.truetype(font_result.filename, font_size)
+        font = ImageFont.truetype(self.font_library.get_filename(font_result), font_size)
         draw = ImageDraw.Draw(text_im)
         txt = ''
 
@@ -25,7 +25,7 @@ class TextProcessor:
             txt,
             fill=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(128, 255)),
             font=font,
-            aling='center'
+            align='center'
         )
 
         return text_im

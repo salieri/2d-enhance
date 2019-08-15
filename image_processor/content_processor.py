@@ -16,7 +16,7 @@ from image_scanner import ImageLibrary
 
 def sprite_content(content: ConfigContentType, box: BoundingBox, im_library: ImageLibrary, font_library: FontLibrary) -> Image.Image:
     sprite = im_library.get_random_sprite()
-    sprite_im = Image.open(sprite.filename).convert('RGBA')
+    sprite_im = Image.open(im_library.get_filename(sprite)).convert('RGBA')
 
     return sprite_im
 
@@ -58,7 +58,7 @@ class ContentProcessor:
     def process_content(self, contents: List[ConfigContentType]) -> None:
         for content in contents:
             if util.should(content.chance) is True:
-                content_im = supported_content[content.type](self, content)
+                content_im = supported_content[content.type](content, self.bounding_box, self.im_library, self.font_library)
 
                 self.draw_content(content, content_im)
 
@@ -84,5 +84,6 @@ class ContentProcessor:
         pos = util.determine_image_position(fit_mode, content_im.width, content_im.height, box.width, box.height)
         resized = content_im.resize((pos[2], pos[3]), resample=Image.LANCZOS)
 
-        self.im.paste(resized, box=(pos[0], pos[1]), mask=mask_im)
+        ## self.im.paste(resized, box=(pos[0], pos[1]), mask=mask_im)
+        self.im.paste(resized, box=(pos[0] + self.bounding_box.x, pos[1] + self.bounding_box.y), mask=resized)
 

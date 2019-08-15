@@ -68,7 +68,7 @@ content:
           chance: 0.25
         - type: hexagon
           chance: 0.25
-        - type: oval
+        - type: ellipse
           chance: 0.25
         - type: line
           chance: 0.25

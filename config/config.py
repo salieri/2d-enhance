@@ -11,7 +11,7 @@ import yaml
 @dataclass
 class ConfigEffectReduceColorsColor:
     count: int = field(metadata={'validate': marshmallow.validate.Range(min=1, max=256)})
-    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
+    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0)}, default=1)
 
 @dataclass
 class ConfigEffectAngle:
@@ -31,7 +31,7 @@ class ConfigEffect:
     colors: Optional[List[ConfigEffectReduceColorsColor]] # reduce_colors
     angle: Optional[ConfigEffectAngle] # rotate
     alpha: Optional[ConfigEffectAlpha] # translucency
-    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
+    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0)}, default=1)
 
 
 # @dataclass
@@ -107,26 +107,26 @@ class ConfigContentGrid:
 
 @dataclass
 class ConfigContentTypeShape:
-    type: str = field(metadata={'validate': marshmallow.validate.OneOf(['triangle', 'hexagon', 'oval', 'line'])})
-    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
+    type: str = field(metadata={'validate': marshmallow.validate.OneOf(['triangle', 'hexagon', 'ellipse', 'line'])})
+    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0)}, default=1)
 
 
 @dataclass
 class ConfigContentTypeFontSize:
-    min: int = field(metadata={'validate': marshmallow.validate.Range(min=4)})
-    max: int = field(metadata={'validate': marshmallow.validate.Range(min=4)})
+    min: int = field(metadata={'validate': marshmallow.validate.Range(min=4)}, default=8)
+    max: int = field(metadata={'validate': marshmallow.validate.Range(min=4)}, default=36)
 
 
 @dataclass
 class ConfigContentType:
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['sprite', 'shape', 'text'])})
     shapes: Optional[List[ConfigContentTypeShape]] # shape
-    characters: Optional[str] # text
-    font_size: Optional[ConfigContentTypeFontSize] # text
+    characters: Optional[str] = field(default='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>,.?/:;{}[]\'"!@#$%^&*()_+=_') # text
+    font_size: Optional[ConfigContentTypeFontSize] = field(default_factory=lambda: {}) # text
     fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='clip') # sprite
     draw_chances: ConfigContentTypeDrawChances = field(default_factory=lambda: {})
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
-    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
+    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0)}, default=1)
 
 
 @dataclass
@@ -141,7 +141,7 @@ class ConfigBackgroundType:
     type: str = field(metadata={'validate': marshmallow.validate.OneOf(['solid', 'transparent', 'bitmap', 'gradient', 'noise'])})
     fit: str = field(metadata={'validate': marshmallow.validate.OneOf(['cover', 'contain', 'clip'])}, default='cover')
     effects: List[ConfigEffect] = field(default_factory=lambda: [])
-    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0.00000000001)}, default=1)
+    chance: float = field(metadata={'validate': marshmallow.validate.Range(min=0)}, default=1)
 
 
 @dataclass
@@ -159,7 +159,7 @@ class Config:
 
 def load_config(filename: str) -> Config:
     with open(filename, 'r') as fp:
-        yaml_data = yaml.load(fp)
+        yaml_data = yaml.load(fp, Loader=yaml.SafeLoader)
 
         (config, err) = Config.Schema().load(yaml_data)
 
