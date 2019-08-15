@@ -50,15 +50,18 @@ class ImageLibrary:
         native_height = native.height
 
         for filename in self.scan_filenames():
-            ia = ImageAnalyzer(filename)
+            try:
+                ia = ImageAnalyzer(filename)
 
-            (details, details_err) = ia.analyze()
-            details.filename = os.path.relpath(details.filename, self.base_path)
+                (details, details_err) = ia.analyze()
+                details.filename = os.path.relpath(details.filename, self.base_path)
 
-            if (details.solid is True) and (details.width >= native_width) and (details.height >= native_height):
-                backgrounds.append(ImageAnalysisResult.Schema().dump(details)[0])
-            else:
-                sprites.append(ImageAnalysisResult.Schema().dump(details)[0])
+                if (details.solid is True) and (details.width >= native_width) and (details.height >= native_height):
+                    backgrounds.append(ImageAnalysisResult.Schema().dump(details)[0])
+                else:
+                    sprites.append(ImageAnalysisResult.Schema().dump(details)[0])
+            except OSError as e:
+                print(f"Failed loading '{filename}' -- {e}")
 
         (self.data, err) = ImageLibraryData.Schema().load(
             {

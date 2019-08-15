@@ -47,23 +47,26 @@ class FontLibrary:
         fonts = []
 
         for filename in self.scan_filenames():
-            fn = os.path.relpath(filename, self.base_path)
-            (result, font_err) = FontAnalysisResult.Schema().load({'filename': fn})
+            try:
+                fn = os.path.relpath(filename, self.base_path)
+                (result, font_err) = FontAnalysisResult.Schema().load({'filename': fn})
 
-            fonts.append(FontAnalysisResult.Schema().dump(result)[0])
-            #
-            #
-            # ff = {
-            #     "variations": []
-            # }
-            #
-            # for size in [9, 10, 12, 14, 18, 24, 32, 48]:
-            #     ff['variations'].append(ImageFont.truetype(filename, size=size))
-            #
-            # (family, style) = ff['variations'][0].getname()
-            # ff['name'] = f"{family}-{style}"
-            #
-            # fonts.append(ff)
+                fonts.append(FontAnalysisResult.Schema().dump(result)[0])
+                #
+                #
+                # ff = {
+                #     "variations": []
+                # }
+                #
+                # for size in [9, 10, 12, 14, 18, 24, 32, 48]:
+                #     ff['variations'].append(ImageFont.truetype(filename, size=size))
+                #
+                # (family, style) = ff['variations'][0].getname()
+                # ff['name'] = f"{family}-{style}"
+                #
+                # fonts.append(ff)
+            except OSError as e:
+                print(f"Failed loading '{filename}' -- {e}")
 
         (self.data, err) = FontLibraryData.Schema().load(
             {
