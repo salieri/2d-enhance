@@ -71,18 +71,18 @@ def line_shape(shape: ConfigContentTypeShape, im: Image.Image) -> Image.Image:
     draw = aggdraw.Draw(im)
     pen = aggdraw.Pen(color, width)
 
-    m = 0
+    i = 0
 
-    while m < (nodes - 1):
-        print((coords[m][0], coords[m][1], coords[m+1][0], coords[m+1][1]))
-        draw.line((coords[m][0], coords[m][1], coords[m+1][0], coords[m+1][1]), pen)
-        m += 1
+    while i < (nodes - 1):
+        # print((coords[i][0], coords[i][1], coords[i+1][0], coords[i+1][1]))
+        draw.line((coords[i][0], coords[i][1], coords[i+1][0], coords[i+1][1]), pen)
+        i += 1
 
-    print('M', m)
-    print('nodes', nodes)
-    print('Brush', width)
-    print('Color', color)
-
+    # print('M', m)
+    # print('nodes', nodes)
+    # print('Brush', width)
+    # print('Color', color)
+    #
     # draw = ImageDraw.Draw(im)
     # draw = ImageDraw.Draw(im)
     # draw.line(coords, fill=color, width=width)

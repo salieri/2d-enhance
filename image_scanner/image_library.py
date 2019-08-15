@@ -86,9 +86,10 @@ class ImageLibrary:
             return data
 
 
-    def save(self, filename: str, data: ImageLibraryData) -> None:
+    def save(self, filename: str) -> None:
         with open(filename, 'w') as fp:
-            json.dump(data.Schema().dump(), fp)
+            (json_data,err) = ImageLibraryData.Schema().dump(self.data)
+            json.dump(json_data, fp)
 
 
     def get_random_sprite(self) -> ImageAnalysisResult:

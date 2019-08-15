@@ -31,7 +31,7 @@ class FontLibrary:
     config: Config
     base_path: str
     file_extensions: List[str]
-    library: FontLibraryData
+    data: FontLibraryData
 
     def __init__(self, config: Config, base_path: str):
         self.config = config
@@ -65,7 +65,7 @@ class FontLibrary:
             #
             # fonts.append(ff)
 
-        (self.library, err) = FontLibraryData.Schema().load(
+        (self.data, err) = FontLibraryData.Schema().load(
             {
                 'type': MAGIC,
                 'version': VERSION,
@@ -74,11 +74,11 @@ class FontLibrary:
             }
         )
 
-        return self.library
+        return self.data
 
 
     def get_random_font(self) -> FontAnalysisResult:
-        return random.choice(self.library.fonts)
+        return random.choice(self.data.fonts)
 
 
     def load(self, filename: str) -> FontLibraryData:
@@ -94,9 +94,10 @@ class FontLibrary:
             return data
 
 
-    def save(self, filename: str, data: FontLibraryData) -> None:
+    def save(self, filename: str) -> None:
         with open(filename, 'w') as fp:
-            json.dump(data.Schema().dump(), fp)
+            (data, err) = FontLibraryData.Schema().dump(self.data)
+            json.dump(data, fp)
 
 
     def get_filename(self, far: FontAnalysisResult) -> str:

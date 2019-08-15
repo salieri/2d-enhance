@@ -120,5 +120,5 @@ content:
       characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890"!@#$%^&*()_-+={}[]:;<>,.?/~'
       font_size:
         min: 14
-        max: 50
+        max: 75
 

@@ -8,4 +8,5 @@ class RunOpts:
     config: str
     samples: int
     show: bool
+    skip_cache: bool
 

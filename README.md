@@ -1,5 +1,3 @@
-> This project is an early stage draft. It does not work or compile.
-
 # Tartarus Image Generation Tools
 
 Command line tools for generating large sets of variations from existing image sets. 
@@ -15,7 +13,7 @@ Command line tools for generating large sets of variations from existing image s
 1. `pip install -r requirements.txt`
 
 
-## Building a Sample Library
+## Generating a Sample Library
 
 ```bash
 python3 generator.py
@@ -25,5 +23,20 @@ python3 generator.py
     --config /path/to/config.yaml
     --samples 10000
     [--show]
+    [--skip-cache]
 ```
+
+The input directory should contain sprites, background images, and TTF and/or OTF fonts. The generator script scans the
+directory recursively. JPG and PNG images only.
+
+An image is considered a sprite, if: 
+
+1. it has alpha channel with alpha of any pixel set to anything expect 'opaque'; or
+2. its size is smaller than the configured 'native' size of an image
+(`processor.native.size.width` and `processor.native.size.height`). 
+
+
+## Generator Configuration File
+
+Image generation is controlled by the generator configuration file. See an example in [`etc/example/test.yaml`](etc/example/test.yaml).
 
