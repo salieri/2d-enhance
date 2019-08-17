@@ -38,5 +38,5 @@ An image is considered a sprite, if:
 
 ## Generator Configuration File
 
-Image generation is controlled by the generator configuration file. See an example in [`etc/example/test.yaml`](etc/example/test.yaml).
+Image generation is controlled by the generator configuration file. See an example in [`config/test.yaml`](config/test.yaml).
 

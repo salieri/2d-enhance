@@ -1,17 +1,17 @@
 from typing import List
 
-import util
+from src import util
 from PIL import Image, ImageDraw
 
-from config import ConfigContentType
+from src.config import ConfigContentType
 
 from .bounding_box import BoundingBox
 from .effect_processor import EffectProcessor
 from .text_procecssor import TextProcessor
 from .shape_processor import ShapeProcessor
 
-from font_scanner import FontLibrary
-from image_scanner import ImageLibrary
+from src.font_scanner import FontLibrary
+from src.image_scanner import ImageLibrary
 
 
 def sprite_content(content: ConfigContentType, box: BoundingBox, im_library: ImageLibrary, font_library: FontLibrary) -> Image.Image:

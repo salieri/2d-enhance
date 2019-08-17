@@ -2,8 +2,8 @@ from typing import List
 
 from PIL import Image
 
-import util
-from config import ConfigEffect
+from src import util
+from src.config import ConfigEffect
 
 
 def grayscale_effect(im: Image.Image, effect: ConfigEffect) -> Image.Image:

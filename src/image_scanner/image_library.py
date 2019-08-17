@@ -11,7 +11,7 @@ from marshmallow_dataclass import dataclass
 import marshmallow.validate
 
 from .image_analyzer import ImageAnalyzer, ImageAnalysisResult
-from config import Config
+from src.config import Config
 
 MAGIC = 'tartarus-generator.image-scan-cache'
 VERSION = '0.1.0'

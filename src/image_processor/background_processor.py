@@ -1,11 +1,11 @@
 from typing import List
 
-import util
+from src import util
 from PIL import Image
 
-from config import ConfigBackgroundType
+from src.config import ConfigBackgroundType
 from .effect_processor import EffectProcessor
-from image_scanner import ImageLibrary
+from src.image_scanner import ImageLibrary
 
 
 def bitmap_background(background: ConfigBackgroundType, im_library: ImageLibrary, width: int, height: int) -> Image.Image:

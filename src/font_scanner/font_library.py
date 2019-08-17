@@ -5,13 +5,12 @@ from typing import Iterable, List
 import random
 import marshmallow.validate
 
-from PIL import ImageFont
 from datetime import datetime
 from dataclasses import field
 from marshmallow_dataclass import dataclass
 
 
-from config import Config
+from src.config import Config
 
 MAGIC = 'tartarus-generator.font-scan-cache'
 VERSION = '0.1.0'

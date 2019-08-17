@@ -1,10 +1,10 @@
 import argparse
 import os
 
-from config import RunOpts, load_config
-from image_processor import ImageProcessor
-from image_scanner import ImageLibrary
-from font_scanner import FontLibrary
+from src.config import RunOpts, load_config
+from src.image_processor import ImageProcessor
+from src.image_scanner import ImageLibrary
+from src.font_scanner import FontLibrary
 
 
 parser = argparse.ArgumentParser(description='Generate images')

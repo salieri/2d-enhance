@@ -1,8 +1,8 @@
 import random
 from PIL import ImageDraw, Image, ImageFont
 
-from config import ConfigContentType
-from font_scanner import FontLibrary
+from src.config import ConfigContentType
+from src.font_scanner import FontLibrary
 
 class TextProcessor:
     def __init__(self, font_library: FontLibrary):

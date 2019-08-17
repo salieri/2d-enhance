@@ -8,9 +8,9 @@ from .effect_processor import EffectProcessor
 from .content_processor import ContentProcessor
 from .background_processor import BackgroundProcessor
 
-from config import Config, ConfigOutputTarget, RunOpts
-from image_scanner import ImageLibrary
-from font_scanner import FontLibrary
+from src.config import Config, ConfigOutputTarget, RunOpts
+from src.image_scanner import ImageLibrary
+from src.font_scanner import FontLibrary
 
 class ImageProcessor:
     config: Config

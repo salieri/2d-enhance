@@ -1,12 +1,12 @@
 from typing import List
 
-from PIL import Image, ImageDraw
+from PIL import Image
 import random
 import aggdraw
 
-import util
+from src import util
 
-from config import ConfigContentTypeShape
+from src.config import ConfigContentTypeShape
 
 # https://aggdraw.readthedocs.io/en/latest/index.html#aggdraw.Draw
 # http://effbot.org/zone/wck-3.htm#introducing
