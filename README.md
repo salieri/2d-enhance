@@ -26,12 +26,12 @@ python3 generator.py
     [--skip-cache]
 ```
 
-The input directory should contain sprites, background images, and TTF and/or OTF fonts. The generator script scans the
-directory recursively. JPG and PNG images only.
+The input directory should contain sprites and background images in JPG or PNG format, and TTF and/or OTF fonts.
+The generator script scans the input directory recursively.
 
 An image is considered a sprite, if: 
 
-1. it has alpha channel with alpha of any pixel set to anything expect 'opaque'; or
+1. it has an alpha channel with alpha of any pixel set to anything expect 'opaque'; or
 2. its size is smaller than the configured 'native' size of an image
 (`processor.native.size.width` and `processor.native.size.height`). 
 
